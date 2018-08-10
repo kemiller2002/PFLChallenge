@@ -9,15 +9,7 @@ import logo from './logo.svg';
 class App extends React.Component {
 
   public testAjax () {
-
-    const config = {
-        headers : {
-          "Authorization" : "Basic bWluaXByb2plY3Q6UHIhbnQxMjM=",
-          "Content-Type" : "application/json"
-        }
-    };
-
-    axios.get('https://testapi.pfl.com/product?apikey=136085', config)
+    axios.get('http://localhost:5000/products')
       .then(x=>console.log(x))
   }
 
