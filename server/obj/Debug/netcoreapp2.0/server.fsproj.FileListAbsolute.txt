@@ -1,0 +1,8 @@
+/Users/kemiller2002/GitHub/PFLChallenge/server/bin/Debug/netcoreapp2.0/server.deps.json
+/Users/kemiller2002/GitHub/PFLChallenge/server/bin/Debug/netcoreapp2.0/server.runtimeconfig.json
+/Users/kemiller2002/GitHub/PFLChallenge/server/bin/Debug/netcoreapp2.0/server.runtimeconfig.dev.json
+/Users/kemiller2002/GitHub/PFLChallenge/server/bin/Debug/netcoreapp2.0/server.dll
+/Users/kemiller2002/GitHub/PFLChallenge/server/bin/Debug/netcoreapp2.0/server.pdb
+/Users/kemiller2002/GitHub/PFLChallenge/server/obj/Debug/netcoreapp2.0/server.fsproj.CoreCompileInputs.cache
+/Users/kemiller2002/GitHub/PFLChallenge/server/obj/Debug/netcoreapp2.0/server.dll
+/Users/kemiller2002/GitHub/PFLChallenge/server/obj/Debug/netcoreapp2.0/server.pdb
