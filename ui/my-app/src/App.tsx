@@ -1,33 +1,38 @@
 import * as React from 'react';
 import './App.css';
 
-import axios from 'axios';
 
-import logo from './logo.svg';
+import {ProductComponent} from './Products'
+
+import { BrowserRouter, Route, Switch} from "react-router-dom";
 
 
 class App extends React.Component {
 
-  public testAjax () {
-    axios.get('http://localhost:5000/products')
-      .then(x=>console.log(x))
-  }
-
-
   public render() {
-    this.testAjax();
+    
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <BrowserRouter>
+                <div>
+                    <Switch>
+                        <Route path="/" exact={true}>
+                            <ProductComponent/>
+                        </Route>
+
+                        <Route render={this.pathDoesNotExist} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+
     );
+
+  }
+  
+  private pathDoesNotExist (props:any) {
+    return <div className="spacerTop alert alert-danger">
+    Sorry, the resource you requested ({props.location.pathname}) does not exist.
+  </div>
   }
 }
 
