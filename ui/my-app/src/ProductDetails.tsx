@@ -9,6 +9,8 @@ import { Customer, Item, Order, Shipment } from './order';
 import { Product } from './product';
 
 
+import { NavLink } from 'react-router-dom';
+
 
 export class ProductDetail extends BaseComponent {
     private id : string;
@@ -26,7 +28,13 @@ export class ProductDetail extends BaseComponent {
         console.log(this.id)
         this.communication.gerProduct(this.id)
             .then(x=>{
+
+                console.log(x);
                 this.product = x.results.data
+                
+
+                this.setState({"product" : this.product});
+
                 this.forceUpdate();
             }
             )
@@ -38,22 +46,6 @@ export class ProductDetail extends BaseComponent {
         state[e.target.name] = e.target.value
 
         this.setState(state);
-    }
-
-    public populateObject (o:any, prefix:string) {
-        console.log(this.state)
-        for(const prop in Object.keys(o)){
-            if(true){
-                console.log(prop.indexOf(prefix) + " " + prop)
-                if(prop.indexOf(prefix)=== 0){
-                    const nameParts = prop.split('-')
-                    const name = nameParts[nameParts.length -1]
-                    o[name] = this.state[prop];
-                }
-            }
-        }
-
-        console.log(o)
     }
 
     public handleSubmit (e:React.FormEvent<HTMLFormElement>) {
@@ -72,8 +64,8 @@ export class ProductDetail extends BaseComponent {
         item.quantity = this.product.quantityMinimum;
         item.itemFile = this.state.location;
         item.itemSequenceNumber = 1;
-        item.productID = this.product.productID;
-
+        item.productID = parseInt(this.id,10);
+        console.log("RO " + item.productID)
         shipment.shipmentSequenceNumber = 1;
 
         orderCustomer.firstName = this.state["order-firstName"];  
@@ -103,13 +95,20 @@ export class ProductDetail extends BaseComponent {
 
         console.log(submission);
 
-        this.communication.createOrder(submission);
+        this.communication.createOrder(submission)
+        .then((x:any)=>{
+            const id = x.data.results.data.orderNumber;
+
+            console.log(id);
+            this.setState({orderId:id});
+            this.forceUpdate();
+        })
     }
 
     public render (){
         return (
             <div className="frame">
-                <h2>Order Form</h2>
+                <h2><span>Order Form</span> <span>{this.state.orderId}</span></h2>
                 <h3>{this.product.name}</h3>
                 <div>
                 <form onSubmit={this.handleSubmit}>
@@ -197,7 +196,8 @@ export class ProductDetail extends BaseComponent {
                      label="Email"
                      defaultValue=""
                      margin="normal"  
-                     onChange={this.handleChange}               
+                     onChange={this.handleChange}   
+                     className="email"            
                 />
             <TextField required={true}
                      name="order-phone"
@@ -280,8 +280,10 @@ export class ProductDetail extends BaseComponent {
                      label="Email"
                      defaultValue=""
                      margin="normal"  
-                     onChange={this.handleChange}               
+                     onChange={this.handleChange}   
+                     className="email"            
                 />
+            
             <TextField required={true}
                      name="shipping-phone"
                      label="Phone Number"
@@ -293,7 +295,12 @@ export class ProductDetail extends BaseComponent {
                 
                 </div>
                 <div className="clear">
-                    <button type="submit" >Process Order</button>
+                    <div className="leftColumn">
+                        <button type="submit" >Process Order</button>
+                    </div>
+                    <div className="rightColumn">
+                        <NavLink to="/">Return to Products</NavLink>                    
+                    </div>
                 </div>
                 </form>
                 </div>

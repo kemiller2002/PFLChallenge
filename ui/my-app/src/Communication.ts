@@ -36,7 +36,7 @@ export class Communication {
         console.log(item);
 
         return axios.post(`${this.url}orders`, order)
-        .then(x=>console.log(x))
+        
     }
 
 }

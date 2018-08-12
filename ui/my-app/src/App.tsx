@@ -6,7 +6,9 @@ import {ProductComponent} from './Products'
 
 import { BrowserRouter, Route, Switch} from "react-router-dom";
 import { Communication, CommunicationOptions } from './Communication';
+import { OrderStatus } from './OrderStatus';
 import { ProductDetail } from './ProductDetails';
+
 
 
 class App extends React.Component {
@@ -22,6 +24,10 @@ class App extends React.Component {
         return <ProductDetail communication = {communication} id={props.match.params.id} />
     }
 
+    const renderOrderStatus =  (props:any) => {
+        return <OrderStatus communication = {communication} id={props.match.params.id} />
+    }
+
     return (
       <BrowserRouter>
                 <div>
@@ -31,6 +37,8 @@ class App extends React.Component {
                         </Route>
 
                         <Route path="/:id" render={renderProduct}/> 
+                        <Route path="/order/:id" render={renderOrderStatus}/> 
+
                         <Route render={this.pathDoesNotExist} />
                     </Switch>
                 </div>

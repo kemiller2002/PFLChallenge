@@ -25,7 +25,7 @@ export class ProductComponent extends BaseComponent {
       }
 
     public render () {
-        const products : Products.Product[] = ((this.state || {products : []}) as any).products
+        const products : Products.Product[] = ((this.state || {products : []}) as any).products || []
 
         return (
             <table>
