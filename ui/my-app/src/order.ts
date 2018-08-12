@@ -61,6 +61,15 @@ export class Order {
 
     public payments:Payment[];
     public itemShipments:ItemShipment[];
+    public billingVariables:BillingVariable[]
+    constructor(){
+
+        this.items = [];
+        this.shipments = [];
+        this.payments = [];
+        this.itemShipments = [];
+    }
+
 
     /*webhooks:[
         {
@@ -73,5 +82,4 @@ export class Order {
         }
     ];*/
 
-    public billingVariables:BillingVariable[]
 }

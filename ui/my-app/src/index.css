@@ -1,6 +1,6 @@
 body {
-  margin: 0;
-  padding: 0;
+  margin: 5px;
+  padding: 5px;
   font-family: sans-serif;
 }
 
@@ -17,4 +17,31 @@ a:hover {
   color:white;
   cursor: pointer;
   
+}
+div.singleColumn{
+  width:80%;
+}
+div.subSection {
+  border: thin gray solid;
+  padding:5px 5px 5px 5px;
+  margin:2px 2px 2px 2px;
+}
+
+div.leftColumn {
+  float: left;
+  width:48%;
+}
+
+div.rightColumn {
+  float: left;
+  width:48%;
+ 
+}
+
+div.clear {
+  clear:both;
+}
+
+.largeTextField{
+  width:90%
 }
