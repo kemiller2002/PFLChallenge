@@ -1,28 +1,27 @@
-import * as React from 'react';
 import './App.css';
 
-import axios from 'axios';
-
+import {BaseComponent} from './BaseComponent'
 import * as Products from './product'
 
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 
-export class ProductComponent extends React.Component {
+
+// import { Router } from 'react-router-dom';
+
+export class ProductComponent extends BaseComponent {
     constructor(props:Readonly<{}>){
         super(props)
     }
-
-    public getProducts () {
-        return axios.get('http://localhost:5000/products')
-          .then(x=>{
-            const d:Products.Response = x.data
-            const products : Products.Product[] = d.results.data.sort((a,b) => a.name.localeCompare(b.name)) 
-            this.setState({products});
-          }
-        )
-      }
     
       public componentDidMount(){
-        this.getProducts();
+        this.communication.getProducts()
+            .then(x=>{
+                const d:Products.Response = x
+                const products : Products.Product[] = d.results.data.sort((a,b) => a.name.localeCompare(b.name)) 
+                this.setState({products});
+              }
+        );
       }
 
     public render () {
@@ -38,9 +37,9 @@ export class ProductComponent extends React.Component {
           
           <tbody className="tableBody">
             {products.map(p => {
-            return <tr key={p.id}>
-              <td>{p.name}</td>
-            </tr>
+               return <tr key={p.id}>
+                    <td><NavLink to={p.id.toString()}>{p.name}</NavLink></td>
+                </tr>
             })
           }
           </tbody>
@@ -48,4 +47,6 @@ export class ProductComponent extends React.Component {
         </table>
         ) 
     }
+
+    
 }

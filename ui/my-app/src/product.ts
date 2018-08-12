@@ -44,9 +44,20 @@ export class Result {
     public data : Product[]
 }
 
+export class SingleResult {
+    public errors : any[];
+    public messages : any[];
+    public data : Product
+}
+
 export class Response {
     public meta : any; 
     public results : Result;
+}
+
+export class SingleResponse {
+    public meta : any; 
+    public result : SingleResult;
 }
 
  export class Image {}

@@ -8,8 +8,13 @@ body {
   text-align: left
 }
 
-tr:hover {
+a {
+  text-decoration: none;
+  color:black;
+}
+a:hover {
   background-color:green;
   color:white;
   cursor: pointer;
+  
 }
