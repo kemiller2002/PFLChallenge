@@ -8,39 +8,27 @@ open Microsoft.AspNetCore.Mvc
 open System.Net.Http
 open System.Net.Http.Headers
 
-(*
-[<Route("api/[controller]")>]
-type ValuesController () =
-    inherit Controller()
-
-    [<HttpGet>]
-    member this.Get() =
-        [|"value1"; "value2"|]
-
-    [<HttpGet("{id}")>]
-    member this.Get(id:int) =
-        "value"
-
-    [<HttpPost>]
-    member this.Post([<FromBody>]value:string) =
-        ()
-
-    [<HttpPut("{id}")>]
-    member this.Put(id:int, [<FromBody>]value:string ) =
-        ()
-
-    [<HttpDelete("{id}")>]
-    member this.Delete(id:int) =
-        ()
-*)
-
 [<Route("/")>]
 type ProxyController () = 
     inherit Controller()
 
+    [<Route("{api}/{id}")>]
+    [<HttpGet>]
+    member this.Get (api:string, id:string) = 
+            async{
+                use client = new HttpClient()
+                let subAddress = sprintf "/%s/%s?apikey=136085" api id
+                client.BaseAddress <- new Uri("https://testapi.pfl.com")
+                client.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Basic", "bWluaXByb2plY3Q6UHIhbnQxMjM=")
+                let! response = client.GetAsync(subAddress) |> Async.AwaitTask
+
+                let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+                return content
+            }
+    
     [<Route("{api}")>]
     [<HttpGet>]
-    member this.Get (api:string) = 
+    member this.GetAll (api:string) = 
             async{
                 use client = new HttpClient()
                 let subAddress = sprintf "/%s?apikey=136085" api
@@ -51,6 +39,7 @@ type ProxyController () =
                 let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
                 return content
             }
+
     [<Route("{api}")>]
     [<HttpPost>]
     member this.Post (api:string)([<FromBody>]model:Object) = 

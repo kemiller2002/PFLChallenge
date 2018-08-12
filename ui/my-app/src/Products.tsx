@@ -37,8 +37,8 @@ export class ProductComponent extends BaseComponent {
           
           <tbody className="tableBody">
             {products.map(p => {
-               return <tr key={p.id}>
-                    <td><NavLink to={p.id.toString()}>{p.name}</NavLink></td>
+               return <tr key={p.productID}>
+                    <td><NavLink to={p.productID.toString()}>{p.name}</NavLink></td>
                 </tr>
             })
           }

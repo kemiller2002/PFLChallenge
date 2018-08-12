@@ -57,7 +57,7 @@ export class Response {
 
 export class SingleResponse {
     public meta : any; 
-    public result : SingleResult;
+    public results : SingleResult;
 }
 
  export class Image {}

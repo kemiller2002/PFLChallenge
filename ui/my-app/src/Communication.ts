@@ -14,13 +14,17 @@ export class Communication {
     }
 
     public getProducts () {
-        return axios.get(`${this.url}products`)// ('http://localhost:5000/products')
+        return axios.get(`${this.url}products`)
         .then(x=>x.data as Products.Response)
     }
 
     public gerProduct(id:string){
-        return axios.get(`${this.url}products/${id}`)// ('http://localhost:5000/products')
-        .then(x=>x.data as Products.SingleResponse)
+        return axios.get(`${this.url}products/${id}`)
+        .then(x=>{
+            console.log(x);
+           return x.data as Products.SingleResponse
+        }
+        )
     }
 
 }
