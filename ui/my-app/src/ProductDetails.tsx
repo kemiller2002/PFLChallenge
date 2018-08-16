@@ -1,3 +1,13 @@
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+import Input from '@material-ui/core/Input'
+
+import MaskedInput from 'react-text-mask'
+
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
 import TextField from '@material-ui/core/TextField'
 
 import * as React from 'react'
@@ -22,6 +32,10 @@ export class ProductDetail extends BaseComponent {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelectChange = this.handleSelectChange.bind(this);
+
+        this.state = {"shippingState": "IN", "orderState": "IN", "shippingPhone":" ", "orderPhone" : " "}
+
     }
 
     public componentDidMount(){
@@ -38,13 +52,20 @@ export class ProductDetail extends BaseComponent {
                 this.forceUpdate();
             }
             )
-        
+
     }
 
     public handleChange (e:React.ChangeEvent<HTMLInputElement>){
         const state = {}; 
         state[e.target.name] = e.target.value
 
+        this.setState(state);
+    }
+
+    public handleSelectChange (e:React.ChangeEvent<HTMLSelectElement>){
+        const state = {}; 
+        state[e.target.name] = e.target.value
+        console.log(state);
         this.setState(state);
     }
 
@@ -74,11 +95,11 @@ export class ProductDetail extends BaseComponent {
         orderCustomer.address1 = this.state["order-address1"];  
         orderCustomer.address2 = this.state["order-address2"];  
         orderCustomer.city = this.state["order-city"];  
-        orderCustomer.state = this.state["order-state"];  
+        orderCustomer.state = this.state.orderState;  
         orderCustomer.postalCode = this.state["order-postalCode"];  
         orderCustomer.countryCode = "US" // this.state["order-countryCode"];  
         orderCustomer.email = this.state["order-email"];  
-        orderCustomer.phone = this.state["order-phone"];
+        orderCustomer.phone = this.state.orderPhone
 
         shipment.firstName = this.state["shipping-firstName"];  
         shipment.lastName = this.state["shipping-lastName"];  
@@ -86,10 +107,10 @@ export class ProductDetail extends BaseComponent {
         shipment.address1 = this.state["shipping-address1"];  
         shipment.address2 = this.state["shipping-address2"];  
         shipment.city = this.state["shipping-city"];  
-        shipment.state = this.state["shipping-state"];  
+        shipment.state = this.state.shippingState;  
         shipment.postalCode = this.state["shipping-postalCode"];  
         shipment.countryCode = "US" // this.state["shipping-countryCode"];  
-        shipment.phone = this.state["shipping-phone"];  
+        shipment.phone = this.state.shippingPhone;  
         shipment.shippingMethod = this.product.shippingMethodDefault // this.state["shipping-shippingMethod"];
         shipment.IMBSerialNumber = this.state["shipping-IMBSerialNumber"]
 
@@ -105,12 +126,29 @@ export class ProductDetail extends BaseComponent {
         })
     }
 
+
+    public TextMaskCustom(props:any) {
+        const { inputRef, ...other } = props;
+      
+        return (
+          <MaskedInput
+            {...other}
+            ref={inputRef}
+            mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+            placeholderChar={'\u2000'}
+            showMask={true}
+          />
+        );
+      }
+
+
     public render (){
         return (
             <div className="frame">
                 <h2><span>Order Form</span> <span>{this.state.orderId}</span></h2>
                 <h3>{this.product.name}</h3>
-                <div>
+                <div className="navigation"><NavLink to="/">Return to Products</NavLink></div>
+                <div className="wrapper">
                 <form onSubmit={this.handleSubmit}>
                 <div className="subSection singleColumn">
                 <div><h3>Order Details</h3></div>
@@ -175,13 +213,25 @@ export class ProductDetail extends BaseComponent {
                      onChange={this.handleChange}                
                 />
 
-           <TextField required={true}
-                     name="order-state"
-                     label="State"
-                     defaultValue=""
-                     margin="normal" 
-                     onChange={this.handleChange}                
-                />
+                       <FormControl className="stateSelect">
+          <InputLabel htmlFor="orderState">state</InputLabel>
+          <Select
+           required={true}
+           value={this.state.orderState}
+           className="stateSelect"
+            onChange={this.handleSelectChange}
+            inputProps={{
+                id: 'orderState',
+                name: 'orderState'
+            }}
+          >
+            <MenuItem value="MT">Montana</MenuItem>
+            <MenuItem value="IN">Indiana</MenuItem>
+            <MenuItem value="MI">Michigan</MenuItem>
+          </Select>
+        </FormControl>
+
+            
 
             <TextField required={true}
                      name="order-postalCode"
@@ -199,15 +249,18 @@ export class ProductDetail extends BaseComponent {
                      onChange={this.handleChange}   
                      className="email"            
                 />
-            <TextField required={true}
-                     name="order-phone"
-                     label="Phone Number"
-                     defaultValue=""
-                     margin="normal" 
-                     onChange={this.handleChange}                
-                />
-                </div>
 
+            <FormControl>
+          <InputLabel htmlFor="orderPhone">Phone Number</InputLabel>
+          <Input
+            value={this.state.orderPhone}
+            name="orderPhone"    
+            onChange={this.handleChange}
+            id="orderPhone"
+            inputComponent={this.TextMaskCustom}
+          />
+        </FormControl>
+            </div>
 
 
             <div className="rightColumn subSection">
@@ -259,13 +312,23 @@ export class ProductDetail extends BaseComponent {
                      onChange={this.handleChange}                
                 />
 
-            <TextField required={true}
-                     name="shipping-state"
-                     label="State"
-                     defaultValue=""
-                     margin="normal" 
-                     onChange={this.handleChange}                
-                />
+<FormControl className="stateSelect">
+          <InputLabel htmlFor="shippingState">state</InputLabel>
+          <Select
+           required={true}
+           value={this.state.shippingState}
+           className="stateSelect"
+            onChange={this.handleSelectChange}
+            inputProps={{
+                id: 'shippingState',
+                name: 'shippingState'
+            }}
+          >
+            <MenuItem value="MT">Montana</MenuItem>
+            <MenuItem value="IN">Indiana</MenuItem>
+            <MenuItem value="MI">Michigan</MenuItem>
+          </Select>
+        </FormControl>
 
             <TextField required={true}
                      name="shipping-postalCode"
@@ -283,28 +346,34 @@ export class ProductDetail extends BaseComponent {
                      onChange={this.handleChange}   
                      className="email"            
                 />
-            
-            <TextField required={true}
-                     name="shipping-phone"
-                     label="Phone Number"
-                     defaultValue=""
-                     margin="normal" 
-                     onChange={this.handleChange}                
-                />
+
+            <FormControl>
+                    <InputLabel htmlFor="shippingPhone">Phone Number</InputLabel>
+                        <Input
+                            value={this.state.shippingPhone}
+                            name="shippingPhone"    
+                            onChange={this.handleChange}
+                            id="shippingPhone"
+                            inputComponent={this.TextMaskCustom}
+                        />
+            </FormControl>
+
+
                 </div>
-                
+   
                 </div>
                 <div className="clear">
                     <div className="leftColumn">
-                        <button type="submit" >Process Order</button>
-                    </div>
-                    <div className="rightColumn">
-                        <NavLink to="/">Return to Products</NavLink>                    
+                        <button type="submit" className="button" >Process Order</button>
                     </div>
                 </div>
                 </form>
                 </div>
             </div>
+
+
+
+
         )
     }
 

@@ -42,7 +42,8 @@ type Startup private () =
     member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
         
         app.UseCors("CorsPolicy") |> ignore
-
+       
+        
         app.UseMvc() |> ignore
 
     member val Configuration : IConfiguration = null with get, set

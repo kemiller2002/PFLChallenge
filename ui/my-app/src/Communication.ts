@@ -16,6 +16,7 @@ export class Communication {
     }
 
     public getProducts () {
+        console.log(this.url)
         return axios.get(`${this.url}products`)
         .then(x=>x.data as Products.Response)
     }

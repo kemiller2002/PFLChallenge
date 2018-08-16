@@ -19,8 +19,12 @@ module Program =
             .UseStartup<Startup>()
             .Build()
 
+
     [<EntryPoint>]
     let main args =
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>() |> ignore
+
         BuildWebHost(args).Run()
 
         exitCode

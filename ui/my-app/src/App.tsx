@@ -16,8 +16,9 @@ class App extends React.Component {
   
   public render() {
     const options = new CommunicationOptions();
-    options.url = 'http://localhost:5000/'
-
+    // options.url = 'http://localhost:5000/'
+    options.url = 'https://pfl.azurewebsites.net/'
+    // options.url = 'http://localhost:49745/'
     const communication = new Communication(options)
     
     const renderProduct =  (props:any) => {
